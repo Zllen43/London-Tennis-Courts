@@ -1,0 +1,6 @@
+export const SLOT_STATUS = {
+  AVAILABLE: 'AVAILABLE',
+  FULL: 'FULL',
+  CLOSED: 'CLOSED',
+  UNKNOWN: 'UNKNOWN',
+};
