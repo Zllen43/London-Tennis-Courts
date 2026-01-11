@@ -1,0 +1,22 @@
+{
+  "courts": [
+    {
+      "id": "mock-1",
+      "name": "Stratford Park Courts",
+      "borough": "Newham",
+      "provider": "mock",
+      "booking_base_url": "https://example.com/booking/stratford",
+      "lat": 51.5415,
+      "lng": 0.0031
+    },
+    {
+      "id": "mock-2",
+      "name": "Clapham Common Courts",
+      "borough": "Lambeth",
+      "provider": "mock",
+      "booking_base_url": "https://example.com/booking/clapham",
+      "lat": 51.4634,
+      "lng": -0.1322
+    }
+  ]
+}

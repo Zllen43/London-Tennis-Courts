@@ -1,0 +1,66 @@
+version: '3.9'
+
+services:
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: london
+      POSTGRES_PASSWORD: london
+      POSTGRES_DB: london_tennis
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  mailhog:
+    image: mailhog/mailhog:v1.0.1
+    ports:
+      - "8025:8025"
+      - "1025:1025"
+
+  api:
+    build:
+      context: ./backend
+    command: ["node", "src/index.js"]
+    environment:
+      DATABASE_URL: postgres://london:london@postgres:5432/london_tennis
+      PORT: 4000
+      BASE_URL: http://localhost:5173
+      CORS_ORIGIN: http://localhost:5173
+      SMTP_HOST: mailhog
+      SMTP_PORT: 1025
+      RATE_LIMIT: 60
+      POLL_INTERVAL_MS: 120000
+    ports:
+      - "4000:4000"
+    depends_on:
+      - postgres
+      - mailhog
+
+  worker:
+    build:
+      context: ./backend
+    command: ["node", "src/worker.js"]
+    environment:
+      DATABASE_URL: postgres://london:london@postgres:5432/london_tennis
+      BASE_URL: http://localhost:5173
+      SMTP_HOST: mailhog
+      SMTP_PORT: 1025
+      POLL_INTERVAL_MS: 120000
+    depends_on:
+      - postgres
+      - mailhog
+
+  frontend:
+    build:
+      context: ./frontend
+    command: ["npm", "run", "dev"]
+    environment:
+      VITE_API_BASE: http://localhost:4000
+    ports:
+      - "5173:5173"
+    depends_on:
+      - api
+
+volumes:
+  postgres_data:
