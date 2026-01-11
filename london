@@ -1,1 +1,14 @@
+cd /path/to/your/project
+
+git init
+git branch -M main
+
+# 确保至少有一个文件被提交（一般 README）
+echo "# my-project" > README.md
+
+git add .
+git commit -m "Initial commit"
+
+git remote add origin https://github.com/<USERNAME>/<REPO>.git
+git push -u origin main
 
